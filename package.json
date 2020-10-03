@@ -1,0 +1,7 @@
+{
+  "name": "trader",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://gitlab.com/smmh1376/trader.git",
+  "license": "MIT"
+}
