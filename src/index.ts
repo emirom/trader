@@ -10,6 +10,8 @@ getAsset()
 
 
 // a func with try catch
+// "target": "es2017",
+// "module": "system",
 const withTry = async () => {
   let res
   try {
@@ -25,7 +27,7 @@ const assests = await withTry()
 console.log(assests)
 
 
-//wit func
+// with then
 const getAssets = () => {
   let assetsList
   getAsset()
