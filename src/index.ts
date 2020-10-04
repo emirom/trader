@@ -13,28 +13,31 @@ getAsset()
 // top level await fails in nodejs12 (LTS) the next setting are doors to new errors!
 // "target": "es2017",
 // "module": "system",
-const withTry = async () => {
-  let res
-  try {
-    res = await getAsset()
-  }
-  catch (err) {
-    console.log("assets err", err)
-  }
-  return res
-}
+// const withTry = async () => {
+//   let res
+//   try {
+//     res = await getAsset()
+//   }
+//   catch (err) {
+//     console.log("assets err", err)
+//   }
+//   return res
+// }
 
-const assests = await withTry()
-console.log(assests)
+// const assests = await withTry()
+// console.log(assests)
 
 
 // with then
-const getAssets = () => {
+const withThen = () => {
   let assetsList
   getAsset()
-    .then(res => { assetsList = res })
+    .then(res => {
+      console.log("res in then", res)
+      assetsList = res
+    })
     .catch(err => console.log("assets err", err))
   return assetsList
 }
-const assets = getAssets()
+const assets = withThen()
 console.log(assets)
