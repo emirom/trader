@@ -10,6 +10,7 @@ getAsset()
 
 
 // a func with try catch
+// top level await fails in nodejs12 (LTS) the next setting are doors to new errors!
 // "target": "es2017",
 // "module": "system",
 const withTry = async () => {
