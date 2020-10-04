@@ -5,6 +5,8 @@
   "license": "MIT",
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
-    "ts-node": "^9.0.0"
+    "node-fetch": "^2.6.1",
+    "ts-node": "^9.0.0",
+    "tsetmc-api": "^0.1.1"
   }
 }
