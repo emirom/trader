@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getAll = async () => {
+export const getAllIds = async () => {
   const raw = await axios.get(
     "http://www.tsetmc.com/tsev2/data/MarketWatchInit.aspx?h=0&r=0"
   );
