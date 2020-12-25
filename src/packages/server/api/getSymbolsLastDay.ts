@@ -1,8 +1,8 @@
 // import { LocalStorage } from "node-localstorage";
 import got from "got/dist/source";
-import { mergeObjects } from "../../utils/mergeObjects";
+import { mergeObjects } from "../utils/mergeObjects";
 
-export const getDayLastPrices = async () => {
+export const getSymbolsLastDay = async () => {
   const url = "http://www.tsetmc.com/tsev2/data/MarketWatchPlus.aspx";
   const response = await got.get(url);
   const content = JSON.stringify(response.body);
