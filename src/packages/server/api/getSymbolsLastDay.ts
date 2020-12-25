@@ -11,8 +11,9 @@ export const getSymbolsLastDay = async () => {
   const symbols = parseSymbolData(parts[2]);
   const bestLimits = parseBestLimits(parts[3]);
 
-  const merge = mergeLimitsAndSymbols(symbols, bestLimits);
-  console.log("mergeLimitsAndSymbols", merge);
+  const symbolsAndLimits = mergeLimitsAndSymbols(symbols, bestLimits);
+  // console.log("mergeLimitsAndSymbols", merge);
+  return symbolsAndLimits;
 };
 
 const parseSymbolData = (symbols_raw) => {
