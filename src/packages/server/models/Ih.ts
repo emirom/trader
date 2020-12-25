@@ -54,7 +54,11 @@ export interface Ih {
   ];
 }
 
-const AverageBeforeBind = function (this: Ih, days: number, dataKey: string) {
+const AverageBeforeBindThis = function (
+  this: Ih,
+  days: number,
+  dataKey: string
+) {
   const data = this.data;
   let sum;
   for (let day = 0; day <= days; day++) {
@@ -64,4 +68,4 @@ const AverageBeforeBind = function (this: Ih, days: number, dataKey: string) {
   return sum / days + 1;
 };
 
-const average = AverageBeforeBind.bind(IhSchema); // bind this
+const average = AverageBeforeBindThis.bind(IhSchema); // bind this
