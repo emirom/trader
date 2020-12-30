@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { Schema, Document } from "mongoose";
 
 const IhSchema = new Schema({
   inscode: Number,
@@ -34,7 +34,7 @@ IhSchema.methods.calcIh = function (this: Ih) {
   }
 };
 
-export interface Ih {
+export interface Ih extends Document {
   inscode: number;
   // QTotTran5J : حجم معاملات در n روز قبل
   // PClosing :قیمت پایانی در n روز قبل

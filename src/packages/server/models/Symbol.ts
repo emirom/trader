@@ -53,7 +53,7 @@ const ISymbolSchema = new Schema(
   }
 );
 
-export interface ISymbol {
+export interface ISymbol extends Document {
   inscode: number;
   iid: number;
   l18: number;

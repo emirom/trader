@@ -1,5 +1,5 @@
 import { Schema, model, Types } from "mongoose";
-import Order from "./Order";
+import { IOrder } from "./Order";
 
 const UserSchema = new Schema({
   firstName: String,
@@ -22,14 +22,14 @@ export default model("User", UserSchema);
 //   Female = 0,
 // }
 
-export interface User {
+export interface IUser extends Document {
   firstName?: string;
   lastName?: string;
   phone: string;
   email: string;
   username: string;
   password: string;
-  orders: Array<Types.ObjectId | typeof Order>;
+  orders: Array<Types.ObjectId | IOrder>;
   // gender: Gender
   // creditCards?: Map<string, string>
 }
@@ -47,7 +47,7 @@ export interface User {
 // Not directly exported because it is not recommended to
 // use this interface direct unless necessary since the
 // type of `order` field is not deterministic
-interface UserBaseDocument extends User, Document {
+interface UserBaseDocument extends IUser, Document {
   getGender(): string;
 }
 

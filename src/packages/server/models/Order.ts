@@ -1,5 +1,5 @@
-import { Types, Schema, model } from "mongoose";
-import User from "./User";
+import { Types, Schema, model, Document } from "mongoose";
+import { IUser } from "./User";
 
 const orderSchema = new Schema({
   deliveryTime: Date,
@@ -7,9 +7,9 @@ const orderSchema = new Schema({
   user: { type: Types.ObjectId, ref: "User" },
 });
 
-export default model("Order", orderSchema);
-
-export interface Order {
+export interface IOrder extends Document {
   deliveryTime: Date;
-  user: Array<Types.ObjectId | typeof User>;
+  user: Array<Types.ObjectId | IUser>;
 }
+
+export default model<IOrder>("Order", orderSchema);
