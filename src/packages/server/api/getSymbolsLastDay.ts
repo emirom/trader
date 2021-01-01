@@ -12,7 +12,6 @@ export const getSymbolsLastDay = async () => {
   const bestLimits = parseBestLimits(parts[3]);
 
   const symbolsAndLimits = mergeLimitsAndSymbols(symbols, bestLimits);
-  // console.log("mergeLimitsAndSymbols", merge);
   return symbolsAndLimits;
 };
 
@@ -22,29 +21,29 @@ const parseSymbolData = (symbols_raw) => {
   const symbols = symbol_data.map((row) => {
     const columns = row.split(",");
     return {
-      iid: columns[0],
-      code: columns[1],
-      symbol: columns[2],
-      name: columns[3],
+      inscode: columns[0],
+      iid: columns[1],
+      l18: columns[2],
+      l30: columns[3],
       heven: columns[4],
-      first_price: columns[5],
-      close_price: columns[6],
-      last_price: columns[7],
-      count: columns[8],
-      volume: columns[9],
-      value: columns[10],
-      min_traded_price: columns[11],
-      max_traded_price: columns[12],
-      yesterday_price: columns[13],
+      pf: columns[5],
+      pc: columns[6],
+      pl: columns[7],
+      tno: columns[8],
+      tvol: columns[9],
+      tval: columns[10],
+      pmin: columns[11],
+      pmax: columns[12],
+      py: columns[13],
       eps: columns[14],
-      base_volume: columns[15],
-      c2: columns[16],
-      table_id: columns[17],
-      group_id: columns[18],
-      max_allowed_price: columns[19],
-      min_allowed_price: columns[20],
-      type_of_symbol: columns[22],
-      all_count_of_symbol: columns[21],
+      bvol: columns[15],
+      visitcount: columns[16],
+      flow: columns[17],
+      cs: columns[18],
+      tmax: columns[19],
+      tmin: columns[20],
+      z: columns[22],
+      yval: columns[21],
     };
   });
   return symbols;
