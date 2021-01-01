@@ -5,9 +5,9 @@ const ISymbolSchema = new Schema(
   // today symbol
   {
     inscode: { type: String, unique: true, required: true },
-    iid: { type: Number }, // code
-    l18: Number, // نماد symbol
-    l30: Number, // نام name
+    iid: String, // code
+    l18: String, // نماد symbol
+    l30: String, // نام name
     heven: Number, // ?
     pf: Number, //اولین قیمت price first
     pc: String, //قیمت پایانی price closing
@@ -55,9 +55,9 @@ const ISymbolSchema = new Schema(
 
 export interface ISymbol extends Document {
   inscode: number;
-  iid: number;
-  l18: number;
-  l30: number;
+  iid: string;
+  l18: string;
+  l30: string;
   heven: number;
   pf: number;
   pc: number;
