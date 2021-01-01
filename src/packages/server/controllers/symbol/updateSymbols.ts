@@ -1,12 +1,14 @@
 import { getSymbolsLastDay } from "../../api/getSymbolsLastDay";
-import ISymbol from "../../models/ISymbol";
-const onInsert = (err, docs) => {
+import Symbol from "../../models/Symbol";
+// import Symbol from "../../models/Symbol";
+
+const onCreate = (err, docs) => {
   err
     ? console.error("***** errer on insert", err)
-    : console.info(docs.length + "symbols sucessfully updated ...");
+    : console.info(docs.length + "symbols were updated sucessfully ...");
 };
 
 export const updateSymbols = async () => {
   const data = await getSymbolsLastDay();
-  ISymbol.collection.insertMany(data, onInsert);
+  await Symbol.create(data, onCreate);
 };
