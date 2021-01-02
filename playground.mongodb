@@ -1,0 +1,77 @@
+// MongoDB Playground
+// To disable this template go to Settings | MongoDB | Use Default Template For Playground.
+// Make sure you are connected to enable completions and to be able to run a playground.
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// Select the database to use.
+use('trader');
+
+// The drop() command destroys all data from a collection.
+// Make sure you run it against proper database and collection.
+db.symbols.drop();
+
+// Insert a few documents into the sales collection.
+db.symbols.insertMany([
+ {
+    inscode: '5427792638736934',
+    iid: 'IRO3FAAZ0001',
+    l18: 'زفكا',
+    l30: 'كشت و دامداري فكا',
+    heven: '143903',
+    pf: '11117',
+    pc: '10632',
+    pl: '11117',
+    tno: '90',
+    tvol: '396225',
+    tval: '4404833325',
+    pmin: '11117',
+    pmax: '11117',
+    py: '10588',
+    eps: '500',
+    bvol: '4702785',
+    visitcount: '7514',
+    flow: '2',
+    cs: '01',
+    tmax: '11117.00',
+    tmin: '10059.00',
+    z: '303',
+    yval: '1500000000'
+  },
+  {
+    inscode: '5437268106911502',
+    iid: 'IRO9PKLJ2871',
+    l18: 'ضفار1120',
+    l30: 'اختيارخ فارس-8826-1399/11/07',
+    heven: '63756',
+    pf: '0',
+    pc: '4000',
+    pl: '4000',
+    tno: '0',
+    tvol: '0',
+    tval: '0',
+    pmin: '0',
+    pmax: '0',
+    py: '4000',
+    eps: '',
+    bvol: '1',
+    visitcount: '979',
+    flow: '3',
+    cs: '44',
+    tmax: '100000.00',
+    tmin: '1.00',
+    z: '311',
+    yval: '2000'
+  },
+]);
+
+db.symbols.find({  inscode: '114312662654155'});
+
+// Run a find command to view items sold on April 4th, 2014.
+db.sales.find({ date: { $gte: new Date('2014-04-04'), $lt: new Date('2014-04-05') } });
+
+// Run an aggregation to view total sales for each product in 2014.
+const aggregation = [
+  { $match: { date: { $gte: new Date('2014-01-01'), $lt: new Date('2015-01-01') } } },
+  { $group: { _id : '$item', totalSaleAmount: { $sum: { $multiply: [ '$price', '$quantity' ] } } } }
+];
+db.sales.aggregate(aggregation);
