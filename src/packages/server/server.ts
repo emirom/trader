@@ -1,23 +1,42 @@
-import { mongo } from "mongoose";
+import mongoose, { ConnectOptions } from "mongoose";
 import express from "express";
 
-export const startServer = () => {
+export const startServer = async () => {
   const app = express();
-  let db;
+  app.on("ready", (app) => onReady(app));
 
-  mongo.connect(
-    process.env.DB_NAME,
-    { useNewUrlParser: true, useUnifiedTopology: true },
-    (err, client) => {
-      if (err) {
-        throw new Error("_________mongoErr:" + err.message);
-      } else {
-        db = client.db();
-        app.listen(5000);
-        console.log("db", db);
-      }
-    }
+  await mongoose.connect(process.env.DB_URI, expressOptions);
+  const mongo = mongoose.connection;
+  mongo.on("error", (err) => onError(err));
+  mongo.on("connected", OnConnection);
+  mongo.once("open", (app) => app.emit("ready"));
+
+  return mongo;
+};
+//-------------events :
+
+const OnConnection = () => {
+  console.log("established initial mongo connection !");
+};
+
+/**
+ * waiting for db connections before app listen
+ * @link https://blog.cloudboost.io/waiting-for-db-connections-before-app-listen-in-node-f568af8b9ec9
+ * @param app
+ */
+const onReady = (app) => {
+  app.listen(process.env.APP_PORT, () =>
+    console.log("app is ready and listening on port:")
   );
+};
 
-  return db;
+const onError = (err) => {
+  console.error.bind(console, "connection error :", err);
+  // logger.error('connection to mongo failed ' + err);
+};
+
+const expressOptions: ConnectOptions = {
+  useNewUrlParser: true, // omit depricated Uri
+  useUnifiedTopology: true, // allow new document
+  useCreateIndex: true,
 };
