@@ -1,10 +1,11 @@
 // import { LocalStorage } from "node-localstorage";
 import got from "got/dist/source";
+import { newLiveAgent } from "../utils/got";
 import { mergeObjects } from "../utils/mergeObjects";
 
 export const getSymbolsLastDay = async () => {
   const url = "http://www.tsetmc.com/tsev2/data/MarketWatchPlus.aspx";
-  const response = await got.get(url);
+  const response = await got.get(url, newLiveAgent());
   const content = JSON.stringify(response.body);
   const parts = content.split("@");
   // console.log("content", parts);
