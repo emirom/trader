@@ -36,13 +36,13 @@ export const checkColumns = (row) => {
   return {
     tarikh,
     date: `${year}-${month}-${day}`,
-    count: +count,
-    volume: +volume,
-    value: +value,
-    open: +open,
-    high: +high,
-    low: +low,
-    close: +close,
-    final: +final,
+    tno: +count,
+    tvol: +volume,
+    tval: +value,
+    pf: +open,
+    pmax: +high,
+    pmin: +low,
+    pc: +close,
+    pl: +final,
   };
 };
