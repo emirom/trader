@@ -1,10 +1,12 @@
-import { Schema, model } from "mongoose";
+import { model, Schema } from "mongoose";
 import { roundTo2 } from "../utils/roundTo";
 
 const ISymbolSchema = new Schema(
   // today symbol
+
   {
     inscode: { type: String, unique: true, required: true },
+    ih: [{ QTotTran5J: Number, PClosing: Number, PriceMin: Number }],
     iid: String, // code
     l18: String, // نماد symbol
     l30: String, // نام name
@@ -46,6 +48,14 @@ const ISymbolSchema = new Schema(
     po3: String,
     qd3: String,
     qo3: String,
+
+    /**
+     *  computed history:
+     */
+    avg30QTotTran5J: Number,
+    avg6QTotTran5J: Number,
+    PClosing: Number,
+    PriceMin: Number,
   },
   {
     toObject: { virtuals: true },
@@ -55,6 +65,7 @@ const ISymbolSchema = new Schema(
 
 export interface ISymbol extends Document {
   inscode: number;
+  ih: [{ QTotTran5J: number; PClosing: number; PriceMin: number }];
   iid: string;
   l18: string;
   l30: string;
@@ -102,6 +113,14 @@ export interface ISymbol extends Document {
   po3: string;
   qd3: string;
   qo3: string;
+
+  /**
+   *  computed history:
+   */
+  avg30_QTotTran5J: Number;
+  avg6_QTotTran5J: Number;
+  PClosing: Number;
+  PriceMin: Number;
 }
 
 export default model("Symbol", ISymbolSchema);
