@@ -1,32 +1,16 @@
-// import { getMonthlyHistory } from "./queries/getMonthlyHistory";
-// import { getAllIds } from "./queries/api/getAllIds";
-// import { getDayLastPrices } from "./queries/api/getDayLastPrices";
-
+import { updateIntraHistory } from "./controllers/instHistory/updateIh";
+import { getSymbols } from "./controllers/symbol/getSymbols";
 import { startServer } from "./server";
 
 (async function () {
+  // const id = 35425587644337450;
   try {
-    const db = startServer();
+    await startServer();
+    // await updateSymbols();
+    const symbols = await getSymbols();
 
-    // const;
-    // const Ids = getAllIds()
-    // Ids.map()
-    // const res =
-    // const lastDay = await getDayLastPrices();
-    // console.log("lastDay", lastDay);
-    // app.post("/create-ih", function (req, res) {
-    //   console.log("req", req);
-    //   // Sending request to create a data
-    db.Ih.insertOne({}, function (err, info) {
-      info.ops[0];
-      if (err) {
-        console.log("err", err);
-      }
-      //   });
-    });
-
-    // console.log(res[0]);
+    await updateIntraHistory(symbols);
   } catch (error) {
-    console.log("index___________error", error);
+    console.log("______index__error______", error);
   }
 })();
