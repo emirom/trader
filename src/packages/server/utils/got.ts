@@ -5,7 +5,7 @@ const liveOption = {
   maxSockets: 10,
 };
 
-export const newLiveAgent = () => {
+export const newAliveAgent = () => {
   return {
     agent: {
       http: new HttpAgent(liveOption),
