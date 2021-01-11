@@ -13,3 +13,8 @@ export const newAliveAgent = () => {
     },
   };
 };
+
+/**
+ * resolved issue of keep live in got
+ * @link https://github.com/sindresorhus/got/issues/815
+ */
