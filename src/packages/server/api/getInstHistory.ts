@@ -1,6 +1,9 @@
 import got from "got/dist/source";
+import { DayHistory, IDay } from "../models/dayHistory";
 
-export const getDailyHistory = async (id: number) => {
+type GetDailyHistory = (id: number) => Promise<DayHistory>;
+
+export const getDailyHistory: GetDailyHistory = async (id) => {
   try {
     const response = await got.get(
       `http://tsetmc.com/tsev2/data/InstTradeHistory.aspx?i=${id}&Top=999999&A=0`
@@ -10,7 +13,6 @@ export const getDailyHistory = async (id: number) => {
 
     return {
       inscode: id,
-      history: new Array(),
       daily: [...result],
     };
   } catch (err) {
@@ -18,10 +20,10 @@ export const getDailyHistory = async (id: number) => {
   }
 };
 
-const extract = (raw: string) => {
+const extract: (raw: string) => IDay[] = (raw) => {
   const rows = raw.split(";");
   rows.pop(); // remove last undefined
-  return rows.map((row) => checkColumns(row));
+  return rows.map((row) => checkColumns(row) as IDay);
 };
 
 export const checkColumns = (row) => {
