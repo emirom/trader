@@ -64,7 +64,13 @@ db.symbols.insertMany([
   },
 ]);
 
-db.symbols.find({  inscode: '114312662654155'});
+db.dailyhistories.insertOne({
+  inscode: '123',
+  daily:[{tvol:1},{tvol:2},{tvol:3},{tvol:4},{tvol:5},
+  {tvol:6},{tvol:7},{tvol:8},{tvol:9},{tvol:10},{tvol:11},
+  {tvol:12},{tvol:13},{tvol:14},{tvol:15},{tvol:16},{tvol:17},
+  {tvol:18},{tvol:19},{tvol:20},{tvol:21}] 
+})
 
 // Run a find command to view items sold on April 4th, 2014.
 db.sales.find({ date: { $gte: new Date('2014-04-04'), $lt: new Date('2014-04-05') } });
