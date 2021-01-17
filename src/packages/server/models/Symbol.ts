@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { Document, model, Schema } from "mongoose";
 import { roundTo2 } from "../utils/roundTo";
 
 const ISymbolSchema = new Schema(
@@ -6,7 +6,16 @@ const ISymbolSchema = new Schema(
 
   {
     inscode: { type: String, unique: true, required: true },
-    ih: [{ QTotTran5J: Number, PClosing: Number, PriceMin: Number }],
+    ih: [
+      {
+        QTotTran5J: Number, // در روز قبل n حجم معاملات
+        PClosing: Number, // : در روز قبل n قیمت پایانی در
+        PriceYesterday: Number, //در روز قبل n قیمت پایانی در
+        PriceMin: Number, // در روز قبل n  کمترین قیمت
+        gain: Number, // TODO: find and calc
+        loss: Number, // TODO: find and calc
+      },
+    ],
     iid: String, // code
     l18: String, // نماد symbol
     l30: String, // نام name
@@ -52,10 +61,8 @@ const ISymbolSchema = new Schema(
     /**
      *  computed history:
      */
-    avg30QTotTran5J: Number,
-    avg6QTotTran5J: Number,
-    PClosing: Number,
-    PriceMin: Number,
+    avg30_QTotTran5J: Number,
+    avg6_QTotTran5J: Number,
   },
   {
     toObject: { virtuals: true },
@@ -63,9 +70,23 @@ const ISymbolSchema = new Schema(
   }
 );
 
+export interface RangeHistory {
+  QTotTran5J: number; // در روز قبل n حجم معاملات;
+  PClosing: number; // : در روز قبل n قیمت پایانی در
+  PriceYesterday: number; //در روز قبل n قیمت پایانی در
+  PriceMin: Number; // در روز قبل n  کمترین قیمت
+  gain: Number; // TODO: find and calc
+  loss: Number; // TODO: find and calc
+}
 export interface ISymbol extends Document {
   inscode: number;
-  ih: [{ QTotTran5J: number; PClosing: number; PriceMin: number }];
+  ih: RangeHistory[];
+  /**
+   *  computed history:
+   */
+  avg30_QTotTran5J: number;
+  avg6_QTotTran5J: number;
+
   iid: string;
   l18: string;
   l30: string;
@@ -101,29 +122,23 @@ export interface ISymbol extends Document {
   po1: string;
   qd1: string;
   qo1: string;
+
   zo2: string;
   zd2: string;
   pd2: string;
   po2: string;
   qd2: string;
   qo2: string;
+
   zo3: string;
   zd3: string;
   pd3: string;
   po3: string;
   qd3: string;
   qo3: string;
-
-  /**
-   *  computed history:
-   */
-  avg30_QTotTran5J: Number;
-  avg6_QTotTran5J: Number;
-  PClosing: Number;
-  PriceMin: Number;
 }
 
-export default model("Symbol", ISymbolSchema);
+export default model<ISymbol>("Symbol", ISymbolSchema);
 
 ISymbolSchema.virtual("pcc").get(function (this: ISymbol) {
   // تغییر قیمت پایانی price change
