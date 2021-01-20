@@ -1,5 +1,10 @@
 import { ISymbol } from "../models/Symbol";
 
+/**
+ * filter carrier functions are in sync and async form,
+ * use as needed
+ */
+
 type AsyncBaseFilter = (
   symbols: ISymbol[],
   symbolFilter: (symbol: ISymbol) => Promise<boolean>
@@ -7,10 +12,10 @@ type AsyncBaseFilter = (
 
 export const asyncBaseFilter: AsyncBaseFilter = async (
   symbols,
-  filterSymbol
+  symbolFilter
 ) => {
   return await Promise.all(
-    symbols.filter(async (symbol) => await filterSymbol(symbol))
+    symbols.filter(async (symbol) => await symbolFilter(symbol))
   );
 };
 
