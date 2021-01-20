@@ -1,3 +1,3 @@
-import Symbol from "../../models/Symbol";
+import ISymbol from "../../models/Symbol";
 
-export const getSymbols = async () => await Symbol.find();
+export const getSymbols = async () => await ISymbol.find();
