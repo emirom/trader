@@ -1,10 +1,9 @@
 import { Got } from "got/dist/source";
 
-export const getHaghighiHoghughi = async (id: string, got: Got) => {
+export const getCustomerTypeHistory = async (id: string, got: Got) => {
   const url = `http://www.tsetmc.com/tsev2/data/clienttype.aspx?i=${id}`;
 
   const body = (await got.get(url)).body;
-  // const local    localStorage.setItem("haghighi", body);
   const rows = JSON.stringify(body).split(";");
   const haghighi_hoghughi = rows.map((row: string) => {
     const columns = row.split(",");
