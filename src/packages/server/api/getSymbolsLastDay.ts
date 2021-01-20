@@ -5,7 +5,7 @@ import { mergeObjects } from "../utils/mergeObjects";
 export const getSymbolsLastDay = async () => {
   const url = "http://www.tsetmc.com/tsev2/data/MarketWatchPlus.aspx";
   const response = await got.get(url);
-  const content = JSON.stringify(response.body);
+  const content = response.body;
   const parts = content.split("@");
   // console.log("content", parts);
   const symbols = parseSymbolData(parts[2]);
