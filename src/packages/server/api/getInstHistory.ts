@@ -14,6 +14,7 @@ export const getDailyHistory: GetDailyHistory = async (id) => {
     return {
       inscode: id,
       daily: [...result],
+      ih: [],
     };
   } catch (err) {
     throw new err();

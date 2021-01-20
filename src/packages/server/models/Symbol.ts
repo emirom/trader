@@ -1,21 +1,10 @@
 import { Document, model, Schema } from "mongoose";
-import { roundTo2 } from "../utils/roundTo";
 
 const ISymbolSchema = new Schema(
   // today symbol
-
   {
     inscode: { type: String, unique: true, required: true },
-    ih: [
-      {
-        QTotTran5J: Number, // در روز قبل n حجم معاملات
-        PClosing: Number, // : در روز قبل n قیمت پایانی در
-        PriceYesterday: Number, //در روز قبل n قیمت پایانی در
-        PriceMin: Number, // در روز قبل n  کمترین قیمت
-        gain: Number, // TODO: find and calc
-        loss: Number, // TODO: find and calc
-      },
-    ],
+
     iid: String, // code
     l18: String, // نماد symbol
     l30: String, // نام name
@@ -38,6 +27,14 @@ const ISymbolSchema = new Schema(
     tmin: Number, //آستانه مجاز پایین threshold min
     z: Number, // تعداد سهام
     yval: Number, // ارزش دیروز ؟
+
+    // computed properties:
+    pcc: Number, // تغییر قیمت پایانی price closing change
+    pcp: Number, // درصد تغییر قیمت پایانی price change percent
+    plc: Number, // تغییر آخرین قیمت price last change
+    plp: Number, //درصد تغییر آخرین قیمت  price last percent
+    pe: Number, // انتظارات سرمایه گذاران از بازدهی آینده p/e ,
+
     // last orders:
     zo1: String,
     zd1: String,
@@ -58,9 +55,7 @@ const ISymbolSchema = new Schema(
     qd3: String,
     qo3: String,
 
-    /**
-     *  computed history:
-     */
+    //  computed history:
     avg30_QTotTran5J: Number,
     avg6_QTotTran5J: Number,
   },
@@ -69,24 +64,20 @@ const ISymbolSchema = new Schema(
     toJSON: { virtuals: true },
   }
 );
-
-export interface RangeHistory {
-  QTotTran5J: number; // در روز قبل n حجم معاملات;
-  PClosing: number; // : در روز قبل n قیمت پایانی در
-  PriceYesterday: number; //در روز قبل n قیمت پایانی در
-  PriceMin: Number; // در روز قبل n  کمترین قیمت
-  gain: Number; // TODO: find and calc
-  loss: Number; // TODO: find and calc
-}
-export interface ISymbol extends Document {
-  inscode: number;
-  ih: RangeHistory[];
-  /**
-   *  computed history:
-   */
+export interface ISymbol
+  extends CalculatedSymbolProps,
+    FetchedSymbolProps,
+    BestLimits,
+    Document {
+  // computed history:
   avg30_QTotTran5J: number;
   avg6_QTotTran5J: number;
+}
 
+export default model<ISymbol>("Symbol", ISymbolSchema);
+
+export interface FetchedSymbolProps {
+  inscode: number;
   iid: string;
   l18: string;
   l30: string;
@@ -109,13 +100,16 @@ export interface ISymbol extends Document {
   tmin: number;
   z: number;
   yval: number;
+}
+export interface CalculatedSymbolProps {
   pcc: number;
   pcp: number;
   plc: number;
   plp: number;
   pe: number;
+}
 
-  // last orders:
+export interface BestLimits {
   zo1: string;
   zd1: string;
   pd1: string;
@@ -137,30 +131,3 @@ export interface ISymbol extends Document {
   qd3: string;
   qo3: string;
 }
-
-export default model<ISymbol>("Symbol", ISymbolSchema);
-
-ISymbolSchema.virtual("pcc").get(function (this: ISymbol) {
-  // تغییر قیمت پایانی price change
-  return this?.pc - this?.py;
-});
-
-ISymbolSchema.virtual("pcp").get(function (this: ISymbol) {
-  // درصد تغییر قیمت پایانی price change percent
-  return roundTo2((100 * this.pcc) / this.py);
-});
-
-ISymbolSchema.virtual("plc").get(function (this: ISymbol) {
-  // تغییر آخرین قیمت price last change
-  return this.tno === 0 ? 0 : this.pl - this.py;
-});
-
-ISymbolSchema.virtual("plp").get(function (this: ISymbol) {
-  // درصد تغییر آخرین قیمت  price last percent
-  return this.tno === 0 ? 0 : roundTo2((100 * this.plc) / this.py);
-});
-
-ISymbolSchema.virtual("pe").get(function (this: ISymbol) {
-  // درصد تغییر آخرین قیمت  price last percent
-  return this.eps ? roundTo2((100 * this.pc) / this.eps) : 0;
-});
