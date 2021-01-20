@@ -1,3 +1,0 @@
-const updateCt = () => {
-  const data = "";
-};
