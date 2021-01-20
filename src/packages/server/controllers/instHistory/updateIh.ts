@@ -1,6 +1,9 @@
 import { getDailyHistory } from "../../api/getInstHistory";
-import DailyHistory, { DayHistory } from "../../models/dayHistory";
-import { ISymbol, RangeHistory } from "../../models/Symbol";
+import DailyHistory, {
+  DayHistory,
+  RangeHistory,
+} from "../../models/dayHistory";
+import { ISymbol } from "../../models/Symbol";
 import { averageLast, calcAverage } from "../../utils/average";
 
 export const updateIntraHistory = async (symbols: ISymbol[]) => {
@@ -8,11 +11,11 @@ export const updateIntraHistory = async (symbols: ISymbol[]) => {
   await Promise.all(
     symbols.map(async (symbol) => {
       const symbolHistory: DayHistory = await getDailyHistory(symbol.inscode);
-      await DailyHistory.create(symbolHistory);
 
       const range: Range = calcRange(symbolHistory);
       const sym = await updateSymbol(symbol, range);
       console.log(sym);
+      await DailyHistory.create({ ...symbolHistory, ih: range.ih });
     })
   );
   console.info("updated instHistory successfully ...");
@@ -37,7 +40,7 @@ export const calcRange: (history: DayHistory) => Range = (history) => {
 };
 
 const makeEmptyRange = () => {
-  const ih: RangeHistory[] = new Array(31).fill(null).map(() => ({
+  const ih: RangeHistory[] = new Array(30).fill(null).map(() => ({
     QTotTran5J: 0, // در روز قبل n حجم معاملات;
     PClosing: 0, // : در روز قبل n قیمت پایانی در
     PriceYesterday: 0, //در روز قبل n قیمت پایانی در
@@ -54,17 +57,17 @@ const calcAveragesFromHistory = (
   ih: RangeHistory[],
   days: number
 ) => {
-  for (let count = 1; count <= days; count++) {
+  for (let count = 0; count < days; count++) {
     // calc previous n days ago average of tvol
 
-    const avg = averageLast(history, count, "tvol");
-    ih[count].QTotTran5J = avg;
+    ih[count].QTotTran5J = averageLast(history, count, "tvol");
 
     // go n days before last day and get the value
-    ih[count].PClosing = history.daily[history.daily.length - count]["pc"];
-    ih[count].PriceMin = history.daily[history.daily.length - count]["pmin"];
+    ih[count].PClosing = history.daily[history.daily.length - count - 1]["pc"];
+    ih[count].PriceMin =
+      history.daily[history.daily.length - count - 1]["pmin"];
     ih[count].PriceYesterday =
-      history.daily[history.daily.length - count]["pmin"];
+      history.daily[history.daily.length - count - 1]["py"];
   }
 };
 
@@ -72,7 +75,6 @@ const updateSymbol: (
   symbol: ISymbol,
   range: Range
 ) => Promise<ISymbol> = async (symbol, range) => {
-  symbol.ih = range.ih;
   symbol.avg30_QTotTran5J = range.avg30_QTotTran5J;
   symbol.avg6_QTotTran5J = range.avg6_QTotTran5J;
   const sym = await symbol.save();
