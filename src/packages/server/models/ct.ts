@@ -1,4 +1,4 @@
-import { Schema, model, Document } from "mongoose";
+import { Document, model, Schema } from "mongoose";
 
 const CtSchema = new Schema({
   iid: String,
@@ -20,7 +20,7 @@ const CtSchema = new Schema({
   ],
 });
 
-export interface Ct extends Document {
+export interface ICustomType extends Document {
   inscode: String;
   data: [
     {
@@ -40,4 +40,4 @@ export interface Ct extends Document {
   ];
 }
 
-export default model("Ct", CtSchema);
+export default model<ICustomType>("CustomType", CtSchema);
