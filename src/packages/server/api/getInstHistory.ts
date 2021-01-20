@@ -1,5 +1,5 @@
 import got from "got/dist/source";
-import { DayHistory, IDay } from "../models/dayHistory";
+import { DayHistory, IDay } from "../models/DayHistory";
 
 type GetDailyHistory = (id: number) => Promise<DayHistory>;
 

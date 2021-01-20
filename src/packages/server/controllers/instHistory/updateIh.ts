@@ -2,7 +2,7 @@ import { getDailyHistory } from "../../api/getInstHistory";
 import DailyHistory, {
   DayHistory,
   RangeHistory,
-} from "../../models/dayHistory";
+} from "../../models/DayHistory";
 import { ISymbol } from "../../models/Symbol";
 import { averageLast, calcAverage } from "../../utils/average";
 

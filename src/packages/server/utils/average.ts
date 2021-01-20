@@ -1,4 +1,4 @@
-import { DayHistory, RangeHistory } from "../models/dayHistory";
+import { DayHistory, RangeHistory } from "../models/DayHistory";
 
 export const calcAverage = (ih: RangeHistory[], days: number, key: string) => {
   let sum = 0;
