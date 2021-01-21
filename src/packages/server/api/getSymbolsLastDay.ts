@@ -7,7 +7,7 @@ export const getSymbolsLastDay = async () => {
   const response = await got.get(url);
   const content = response.body;
   const parts = content.split("@");
-  // console.log("content", parts);
+
   const symbols = parseSymbolData(parts[2]);
   const bestLimits = parseBestLimits(parts[3]);
 
@@ -53,7 +53,7 @@ export const parseBestLimits = (limits_raw) => {
   const limits_data = limits_raw.split(";");
   const limits = limits_data.map((row) => {
     const columns = row.split(",");
-    // console.log("columns[0]", columns[0]);
+
     const number = columns[1];
     return {
       // z : zahlen (integer number), p :price, q : quantity, d: dealer, o: owner
@@ -72,7 +72,7 @@ export const parseBestLimits = (limits_raw) => {
 const mergeLimitsAndSymbols = (symbols, bestLimits) => {
   return symbols.map((symbol) => {
     const limitsArray = bestLimits.filter(
-      (limit: { iid: any }) => limit.iid === symbol.iid
+      (limit: { iid: number }) => limit.iid === symbol.iid
     );
     const relatedLimits = mergeObjects(limitsArray);
     // console.log("relatedSymbol", relatedLimits);
