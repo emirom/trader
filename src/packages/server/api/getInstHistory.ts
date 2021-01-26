@@ -1,18 +1,18 @@
 import got from "got/dist/source";
 import { DayHistory, IDay } from "../models/DayHistory";
 
-type GetDailyHistory = (id: number) => Promise<DayHistory>;
+type GetDailyHistory = (inscode: number) => Promise<DayHistory>;
 
-export const getDailyHistory: GetDailyHistory = async (id) => {
+export const getDailyHistory: GetDailyHistory = async (inscode) => {
   try {
     const response = await got.get(
-      `http://tsetmc.com/tsev2/data/InstTradeHistory.aspx?i=${id}&Top=999999&A=0`
+      `http://tsetmc.com/tsev2/data/InstTradeHistory.aspx?i=${inscode}&Top=999999&A=0`
     );
     const result = extract(response.body);
     // console.log(result, typeof result);
 
     return {
-      inscode: id,
+      inscode,
       daily: [...result],
       ih: [],
     };
