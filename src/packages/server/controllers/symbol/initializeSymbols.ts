@@ -1,21 +1,22 @@
+import { Request, Response } from "express";
 import { getSymbolsLastDay } from "../../api/getSymbolsLastDay";
 import ISymbol, {
   CalculatedSymbolProps,
   FetchedSymbolProps,
 } from "../../models/Symbol";
 import { roundTo2 } from "../../utils/roundTo";
-// import Symbol from "../../models/Symbol";
 
-export const createSymbols = async () => {
-  const data = await getSymbolsLastDay();
-  const symbols: SymbolWithCalculatedProps[] = calcProperties(data);
-  await ISymbol.insertMany(symbols, onCreate);
-};
-
-const onCreate = (err, docs) => {
-  err
-    ? console.error("Errer on symbols creation: ", err)
-    : console.info(docs.length + " symbols were created sucessfully ...");
+export const initializeSymbols = async (_req: Request, res: Response) => {
+  try {
+    const data = await getSymbolsLastDay();
+    const symbols: SymbolWithCalculatedProps[] = calcProperties(data);
+    const result = await ISymbol.insertMany(symbols);
+    res
+      .status(200)
+      .send(result.length + " symbols were created sucessfully ...");
+  } catch (error) {
+    res.status(500).send("\nError on symbols initialization:" + error);
+  }
 };
 
 interface SymbolWithCalculatedProps
