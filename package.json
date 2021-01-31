@@ -17,7 +17,7 @@
     "tsetmc-api": "^0.1.1"
   },
   "scripts": {
-    "start": "ts-node -r dotenv/config src/packages/server/index.ts",
+    "start": "ts-node-dev -r dotenv/config src/packages/server/index.ts",
     "dev": "ts-node-dev src/index.ts"
   },
   "devDependencies": {
