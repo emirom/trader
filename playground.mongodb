@@ -8,7 +8,7 @@ use('trader');
 
 // The drop() command destroys all data from a collection.
 // Make sure you run it against proper database and collection.
-db.symbols.drop();
+// db.symbols.drop();
 
 // Insert a few documents into the sales collection.
 db.symbols.insertMany([
@@ -73,7 +73,7 @@ db.dailyhistories.insertOne({
 })
 
 // Run a find command to view items sold on April 4th, 2014.
-db.sales.find({ date: { $gte: new Date('2014-04-04'), $lt: new Date('2014-04-05') } });
+db.symbols.findOne({l18:'زفكا'});
 
 // Run an aggregation to view total sales for each product in 2014.
 const aggregation = [
