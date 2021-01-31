@@ -1,7 +1,7 @@
 import { Document, model, Schema } from "mongoose";
 
 const dailyHistorySchema = new Schema({
-  inscode: Number,
+  inscode: String,
 
   ih: [
     {
@@ -9,6 +9,7 @@ const dailyHistorySchema = new Schema({
       PClosing: Number, // : در روز قبل n قیمت پایانی در
       PriceYesterday: Number, //در روز قبل n قیمت پایانی در
       PriceMin: Number, // در روز قبل n  کمترین قیمت
+      PriceMax: Number, // در روز قبل n  بیشترین قیمت
       gain: Number, // TODO: find and calc
       loss: Number, // TODO: find and calc
     },
@@ -48,12 +49,13 @@ export interface RangeHistory {
   QTotTran5J: number; // در روز قبل n حجم معاملات;
   PClosing: number; // : در روز قبل n قیمت پایانی در
   PriceYesterday: number; //در روز قبل n قیمت پایانی در
-  PriceMin: Number; // در روز قبل n  کمترین قیمت
-  gain: Number; // TODO: find and calc
-  loss: Number; // TODO: find and calc
+  PriceMin: number; // در روز قبل n  کمترین قیمت
+  PriceMax: number; // در روز قبل n  بیشترین قیمت
+  gain: number; // TODO: find and calc
+  loss: number; // TODO: find and calc
 }
 export interface DayHistory {
-  inscode: number;
+  inscode: string;
   ih: RangeHistory[];
   daily: IDay[];
 }

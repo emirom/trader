@@ -12,23 +12,24 @@ export const initializeDayHistory = async (_req: Request, res: Response) => {
     console.log("\nStarted initializing day histories ... ");
 
     const symbols = await Symbol.find({});
-    console.log("\nSymbols fetched to initialize history ...");
 
     await DailyHistory.deleteMany();
+
     await Promise.all(
       symbols.map(async (symbol) => {
         const symbolHistory: DayHistory = await getDailyHistory(symbol.inscode);
 
         const range: Range = calcRange(symbolHistory);
-        const sym = await updateSymbol(symbol, range, symbolHistory);
-        console.log(sym);
+        await updateSymbol(symbol, range, symbolHistory);
+
         await DailyHistory.create({ ...symbolHistory, ih: range.ih });
       })
     );
 
-    res.status(200).send("\nInitialized History successfully ...");
+    console.log("Initialized History successfully ...");
+    res.status(200).send("\nInitialized dayHistory successfully ...");
   } catch (error) {
-    res.status(500).send("\nInitialized instHistory error:" + error);
+    res.status(500).send("\nInitialized dayHistory error:" + error);
   }
 };
 
@@ -45,7 +46,6 @@ export const calcRange: (history: DayHistory) => Range = (history) => {
 
   range["avg30_QTotTran5J"] = calcAverage(range.ih, 30, "QTotTran5J");
   range["avg6_QTotTran5J"] = calcAverage(range.ih, 6, "QTotTran5J");
-  console.log(range);
 
   return range;
 };
@@ -56,6 +56,7 @@ const makeEmptyRange = () => {
     PClosing: 0, // : در روز قبل n قیمت پایانی در
     PriceYesterday: 0, //در روز قبل n قیمت پایانی در
     PriceMin: 0, // در روز قبل n  کمترین قیمت
+    PriceMax: 0, // در روز قبل n  بیشترین قیمت
     gain: 0, // TODO: find and calc
     loss: 0, // TODO: find and calc
   }));
@@ -76,14 +77,16 @@ const calcAveragesFromHistory = (
     // go n days before today and get the value
     ih[count].PClosing = prev(history.daily, count, "pc");
     ih[count].PriceMin = prev(history.daily, count, "pmin");
+    ih[count].PriceMax = prev(history.daily, count, "pmax");
     ih[count].PriceYesterday = prev(history.daily, count, "py");
   }
 };
 
 const prev = (daily: IDay[], counter: number, field: string) => {
   const prev =
-    daily && [daily.length - counter - 1] &&
-    [daily.length - counter - 1][field];
+    daily &&
+    daily[daily.length - 1 - counter] &&
+    daily[daily.length - 1 - counter][field];
   return prev ? prev : 0;
 };
 
