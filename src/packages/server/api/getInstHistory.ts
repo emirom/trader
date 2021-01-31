@@ -1,15 +1,16 @@
 import got from "got/dist/source";
 import { DayHistory, IDay } from "../models/DayHistory";
+import { newAliveAgent } from "../utils/got";
 
-type GetDailyHistory = (inscode: number) => Promise<DayHistory>;
+type GetDailyHistory = (inscode: string) => Promise<DayHistory>;
 
 export const getDailyHistory: GetDailyHistory = async (inscode) => {
   try {
     const response = await got.get(
-      `http://tsetmc.com/tsev2/data/InstTradeHistory.aspx?i=${inscode}&Top=999999&A=0`
+      `http://tsetmc.com/tsev2/data/InstTradeHistory.aspx?i=${inscode}&Top=999999&A=0`,
+      newAliveAgent()
     );
     const result = extract(response.body);
-    // console.log(result, typeof result);
 
     return {
       inscode,
@@ -17,7 +18,7 @@ export const getDailyHistory: GetDailyHistory = async (inscode) => {
       ih: [],
     };
   } catch (err) {
-    throw new err();
+    throw new Error(err);
   }
 };
 
