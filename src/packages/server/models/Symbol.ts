@@ -1,6 +1,6 @@
 import { Document, model, Schema } from "mongoose";
 
-const ISymbolSchema = new Schema(
+const SymbolSchema = new Schema(
   // today symbol
   {
     inscode: { type: String, unique: true, required: true },
@@ -10,7 +10,7 @@ const ISymbolSchema = new Schema(
     l30: String, // نام name
     heven: Number, // ?
     pf: Number, //اولین قیمت price first
-    pc: String, //قیمت پایانی price closing
+    pc: Number, //قیمت پایانی price closing
     pl: Number, //آخرین قیمت price last
     tno: Number, //تعداد معاملات trade number
     tvol: Number, //حجم معاملات trade volume
@@ -36,32 +36,32 @@ const ISymbolSchema = new Schema(
     pe: Number, // انتظارات سرمایه گذاران از بازدهی آینده p/e ,
 
     // last orders:
-    zo1: String,
-    zd1: String,
-    pd1: String,
-    po1: String,
-    qd1: String,
-    qo1: String,
-    zo2: String,
-    zd2: String,
-    pd2: String,
-    po2: String,
-    qd2: String,
-    qo2: String,
-    zo3: String,
-    zd3: String,
-    pd3: String,
-    po3: String,
-    qd3: String,
-    qo3: String,
+    zo1: Number,
+    zd1: Number,
+    pd1: Number,
+    po1: Number,
+    qd1: Number,
+    qo1: Number,
 
+    zo2: Number,
+    zd2: Number,
+    pd2: Number,
+    po2: Number,
+    qd2: Number,
+    qo2: Number,
+
+    zo3: Number,
+    zd3: Number,
+    pd3: Number,
+    po3: Number,
+    qd3: Number,
+    qo3: Number,
+
+    is5: Number, // میانگین حجم معاملات در 3 ماه گذشته
+    is6: Number, // میانگین حجم معاملات در 3 ماه گذشته
     //  computed history:
     avg30_QTotTran5J: Number,
     avg6_QTotTran5J: Number,
-  },
-  {
-    toObject: { virtuals: true },
-    toJSON: { virtuals: true },
   }
 );
 export interface ISymbol
@@ -74,10 +74,10 @@ export interface ISymbol
   avg6_QTotTran5J: number;
 }
 
-export default model<ISymbol>("Symbol", ISymbolSchema);
+export default model<ISymbol>("Symbol", SymbolSchema);
 
 export interface FetchedSymbolProps {
-  inscode: number;
+  inscode: string;
   iid: string;
   l18: string;
   l30: string;
@@ -107,27 +107,30 @@ export interface CalculatedSymbolProps {
   plc: number;
   plp: number;
   pe: number;
+
+  is5: number; // میانگین حجم معاملات در 3 ماه گذشته
+  is6: number; // میانگین حجم معاملات در 12 ماه گذشته
 }
 
 export interface BestLimits {
-  zo1: string;
-  zd1: string;
-  pd1: string;
-  po1: string;
-  qd1: string;
-  qo1: string;
+  zo1: number;
+  zd1: number;
+  pd1: number;
+  po1: number;
+  qd1: number;
+  qo1: number;
 
-  zo2: string;
-  zd2: string;
-  pd2: string;
-  po2: string;
-  qd2: string;
-  qo2: string;
+  zo2: number;
+  zd2: number;
+  pd2: number;
+  po2: number;
+  qd2: number;
+  qo2: number;
 
-  zo3: string;
-  zd3: string;
-  pd3: string;
-  po3: string;
-  qd3: string;
-  qo3: string;
+  zo3: number;
+  zd3: number;
+  pd3: number;
+  po3: number;
+  qd3: number;
+  qo3: number;
 }
