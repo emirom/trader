@@ -27,7 +27,7 @@ const parseSymbolData = (symbols_raw) => {
       l30: columns[3],
       heven: columns[4],
       pf: columns[5],
-      pc: columns[6],
+      pc: +columns[6],
       pl: columns[7],
       tno: columns[8],
       tvol: columns[9],
