@@ -9,26 +9,25 @@ export const watchSymbol = async (id: number) => {
   const parts = raw.split(";");
   const prices = extractPrices(parts[0]);
   const limits = extractLimits(parts[2]);
-  const customerType = extractCustomerType(parts[4]);
+  const clientType = extractClientType(parts[4]);
 
-  console.table(limits);
-  console.table(prices);
-  console.table(customerType);
+  // console.table(limits);
+  // console.table(prices);
+  // console.table(clientType);
 
   return {
     ...limits,
     ...prices,
-    ...customerType,
+    ...clientType,
   };
 };
 
-export const watchCustomerType = async (id: number) => {
+export const watchClientType = async (id: number) => {
   const url = `http://www.tsetmc.com/tsev2/data/instinfodata.aspx?i=${id}&c=27`;
   const response = await got.get(url, newAliveAgent());
   const raw = response.body;
   const parts = raw.split(";");
-  // console.table(ct);
-  return extractCustomerType(parts[4]);
+  return extractClientType(parts[4]);
 };
 
 const extractLimits = (rawLimits) => {
@@ -49,7 +48,7 @@ const extractLimits = (rawLimits) => {
   });
   return mergeObjects(resultArray);
 };
-const extractCustomerType = (rawCt) => {
+const extractClientType = (rawCt) => {
   const columns = rawCt.split(",");
   return {
     Buy_I_Volume: +columns[0],
