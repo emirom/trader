@@ -2,9 +2,11 @@ import express from "express";
 import mongoose, { ConnectOptions } from "mongoose";
 
 const mongooseOptions: ConnectOptions = {
-  useNewUrlParser: true, // omit depricated Uri
   useUnifiedTopology: true, // allow new document
+  useNewUrlParser: true, // omit depricated Uri
   useCreateIndex: true,
+  keepAlive: true,
+  socketTimeoutMS: 45000,
 };
 
 export const startServer = async () => {
@@ -17,7 +19,7 @@ export const startServer = async () => {
     const app = express();
     // app.use(cors());;
     // app.use(express.static(path.join(__dirname, 'public')));
-    ``;
+
     app.listen(process.env.APP_PORT, () =>
       console.log(
         `app is ready and listening on http://localhost:${process.env.APP_PORT}`
