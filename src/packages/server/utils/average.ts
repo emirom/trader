@@ -4,7 +4,8 @@ export const calcAverage = (ih: RangeHistory[], days: number, key: string) => {
   let sum = 0;
 
   for (let day = 0; day < days; day++) {
-    sum += ih[day][key];
+    const data = ih[day];
+    sum += data ? data[key] : 0;
   }
 
   return sum / days;
@@ -19,8 +20,10 @@ export const averageLast = function (
   const daily = history.daily;
   let sum = 0;
 
-  for (let counter = 0; counter <= days; counter++)
-    sum += daily[daily.length - counter - 1][dataKey];
+  for (let counter = 0; counter <= days; counter++) {
+    const day = daily && daily[daily.length - counter - 1];
+    sum += day ? day[dataKey] : 0;
+  }
 
   return sum / (days === 0 ? 1 : days);
 };
