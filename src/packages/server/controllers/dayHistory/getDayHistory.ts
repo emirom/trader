@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
-import DayHistory from "../../models/DayHistory";
+import DayHistory, { IHistory } from "../../models/DayHistory";
 
 export const getDayHistory = async (req: Request, res: Response) => {
   try {
-    const history = await DayHistory.findOne({ inscode: +req.params.inscode });
-    console.log(history);
+    const history: IHistory = await DayHistory.findOne({
+      inscode: req.params.inscode,
+    });
 
     res.status(200).send(history);
   } catch (error) {
