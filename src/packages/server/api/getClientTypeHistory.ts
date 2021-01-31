@@ -1,6 +1,6 @@
 import { Got } from "got/dist/source";
 
-export const getCustomerTypeHistory = async (id: string, got: Got) => {
+export const getClientTypeHistory = async (id: string, got: Got) => {
   const url = `http://www.tsetmc.com/tsev2/data/clienttype.aspx?i=${id}`;
 
   const body = (await got.get(url)).body;
@@ -25,3 +25,11 @@ export const getCustomerTypeHistory = async (id: string, got: Got) => {
   });
   return haghighi_hoghughi;
 };
+// Buy_I_Volume: +columns[0],
+// Buy_N_Volume: +columns[1],
+// Sell_I_Volume: +columns[3],
+// Sell_N_Volume: +columns[4],
+// Buy_CountI: +columns[5],
+// Buy_CountN: +columns[6],
+// Sell_CountI: +columns[8],
+// Sell_CountN: +columns[9],
