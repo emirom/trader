@@ -5,10 +5,9 @@ import { baseFilter } from "./baseFilter";
 
 export const khoroujPul1 = async (_req: Request, res: Response) => {
   try {
-    const result: ISymbol[] = await baseFilter(khoroujPul1Filter);
-    console.log(result.map((sym) => sym.l18));
-
-    res.status(200).send(result);
+    const filtered: ISymbol[] = await baseFilter(khoroujPul1Filter);
+    const list = filtered.map((symbol) => symbol.l18);
+    res.status(200).send(list);
   } catch (error) {
     res.status(500).send(error);
   }

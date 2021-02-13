@@ -6,9 +6,11 @@ import Symbol, { ISymbol } from "../models/Symbol";
  */
 
 // ====== async : the symbolFilter argument is a async function
-type AsyncBaseFilter = (
-  symbolFilter: (symbol: ISymbol, clientType?: IClientType) => Promise<boolean>
-) => Promise<ISymbol[]>;
+type AsyncFilter = (
+  symbol: ISymbol,
+  clientType?: IClientType
+) => Promise<boolean>;
+type AsyncBaseFilter = (symbolFilter: AsyncFilter) => Promise<ISymbol[]>;
 
 export const asyncBaseFilter: AsyncBaseFilter = async (symbolFilter) => {
   try {
@@ -26,9 +28,9 @@ export const asyncBaseFilter: AsyncBaseFilter = async (symbolFilter) => {
 };
 
 // ====== sync : the symbolFilter argument is a sync function
-type BaseFilter = (
-  symbolFilter: (symbol: ISymbol, clientType: IClientType) => boolean
-) => Promise<ISymbol[]>;
+
+type Filter = (symbol: ISymbol, clientType: IClientType) => boolean;
+type BaseFilter = (symbolFilter: Filter) => Promise<ISymbol[]>;
 
 export const baseFilter: BaseFilter = async (symbolFilter) => {
   try {
@@ -45,3 +47,21 @@ export const baseFilter: BaseFilter = async (symbolFilter) => {
     throw new Error("filter base error: " + error);
   }
 };
+
+// type PutFilters = (symbolFilter: Filter[]) => Promise<ISymbol[]>;
+
+// export const putFilters: BaseFilter = async (symbolFilter) => {
+//   try {
+//     const symbols: ISymbol[] = await Symbol.find({});
+//     const clientTypes: IClientType[] = await getClientTypesToday();
+
+//     return symbols.filter((symbol) =>
+//       symbolFilter(
+//         symbol,
+//         clientTypes.find((ct) => ct.inscode === symbol.inscode)
+//       )
+//     );
+//   } catch (error) {
+//     throw new Error("filter base error: " + error);
+//   }
+// };

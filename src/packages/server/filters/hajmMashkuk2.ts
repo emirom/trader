@@ -6,8 +6,8 @@ import { baseFilter } from "./baseFilter";
  * @param symbols
  */
 export const hajmMashkuk = () => {
-  baseFilter(hajmMashkukFilter);
+  baseFilter(hajmMashkukFilter2);
 };
 
-export const hajmMashkukFilter: (symbol: ISymbol) => boolean = (symbol) =>
-  symbol.tvol > 5 * symbol.avg30_QTotTran5J;
+export const hajmMashkukFilter2: (symbol: ISymbol) => boolean = (symbol) =>
+  symbol.tvol > symbol.is5 && symbol.tvol > 2 * symbol.is6;
