@@ -1,51 +1,99 @@
-import { ISymbol } from "../../models/Symbol";
+import {
+  getClientTypesToday,
+  IClientType,
+} from "../../api/getClientTypesToday";
+import Symbol, { ISymbol } from "../../models/Symbol";
 
 /**
  * map carrier functions are in sync and async form,
  * use as needed
  * in fact with these carriers, we defined a structure for all indicators
  */
-type MapResponse = { symbol: ISymbol; value: number; weight: number };
+export type MappedSymbol = {
+  value?: number;
+  weight?: number;
+};
 
-// ====== async
-export type AsyncIndicator = (
-  symbol: ISymbol,
-  isBuying: boolean
-) => Promise<MapResponse>;
+export type WeightFunction = (value: number) => number;
 
-type AsyncBaseMap = (
-  indicator: AsyncIndicator,
-  symbols: ISymbol[],
+// ====== sync
+
+/**
+ * usage:
+ * kharidBeForush
+ */
+export type BaseMapForList = (
+  symbolsData: ISymbol[],
+  clientTypes: IClientType[],
+  indicator: Indicator,
+  getBuyWeight: WeightFunction,
+  getSellWeight: WeightFunction,
   isBuying?: boolean
-) => Promise<MapResponse[]>;
+  //  MappedSymbol[]
+) => Promise<MappedSymbol[]>;
 
-export const asyncBaseMap: AsyncBaseMap = async (
+export const baseMapForList: BaseMapForList = async (
+  symbolsData,
+  clientTypes,
   indicator,
-  symbols,
+  getBuyWeight,
+  getSellWeight,
   isBuying = true
 ) => {
   try {
-    return await Promise.all(
-      symbols.map(async (symbol) => await indicator(symbol, isBuying))
-    );
+    const getWeight = isBuying ? getBuyWeight : getSellWeight;
+    return symbolsData.map((symbol) => {
+      const indicated = indicator(
+        symbol,
+        clientTypes.find((ct) => ct.inscode === symbol.inscode),
+        getWeight
+      );
+
+      return {
+        // name: symbol.l18,
+        // inscode: symbol.inscode,
+        ...symbol,
+        ...indicated,
+      };
+    });
   } catch (error) {
-    console.log(`Error on ${indicator.name} indicator`);
+    console.log(`Error on ${indicator.name} indicator: ${error}`);
     return null;
   }
 };
 
-// ====== sync
-type Indicator = (symbol: ISymbol, isBuying: boolean) => MapResponse;
-
 export type BaseMap = (
   indicator: Indicator,
-  symbols: ISymbol[],
-  isBuying?: boolean
-) => MapResponse[];
+  getBuyWeight: WeightFunction,
+  getSellWeight: WeightFunction,
+  isBuying?: boolean,
+  symbols?: ISymbol[]
+) => Promise<MappedSymbol[]>;
 
-export const baseMap: BaseMap = (indicator, symbols, isBuying = true) => {
+export type Indicator = (
+  symbol: ISymbol,
+  ct: IClientType /** difference with async */,
+  weightFunction: WeightFunction
+) => MappedSymbol | any;
+
+export const baseMap: BaseMap = async (
+  indicator,
+  getBuyWeight,
+  getSellWeight,
+  isBuying = true,
+  symbolsData
+) => {
   try {
-    return symbols.map((symbol) => indicator(symbol, isBuying));
+    const symbols = symbolsData || (await Symbol.find({}).lean());
+    const clientTypes: IClientType[] = await getClientTypesToday();
+    const weightFunction = isBuying ? getBuyWeight : getSellWeight;
+    return symbols.map((symbol) =>
+      indicator(
+        symbol,
+        clientTypes.find((ct) => ct.inscode === symbol.inscode),
+        weightFunction
+      )
+    );
   } catch (error) {
     console.log(`Error on ${indicator.name} indicator`);
     return null;

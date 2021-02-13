@@ -1,4 +1,29 @@
 // // کد فیلترنویسی اندیکاتور Rsi
+import { RangeHistory } from "../../models/DayHistory";
+
+export const rsi = (ih, range = 14) => {
+  const avgGainAndLoss = function (ih: RangeHistory[]) {
+    let loss = 0;
+    let gain = 0;
+
+    for (let n = 0; n < range; n++) {
+      ih[n].PClosing > ih[n].PriceYesterday
+        ? (gain += ih[n].PClosing - ih[n].PriceYesterday)
+        : ih[n].PClosing < ih[n].PriceYesterday
+        ? (loss += -(ih[n].PClosing - ih[n].PriceYesterday))
+        : undefined;
+    }
+
+    return {
+      averageGain: gain / range,
+      averageLoss: loss / range,
+    };
+  };
+
+  const { averageGain: cfield0, averageLoss: cfield1 } = avgGainAndLoss(ih);
+  const cfield2 = Math.round(100 - 100 / (1 + cfield0 / cfield1));
+  return cfield2;
+};
 
 // true==function()
 
