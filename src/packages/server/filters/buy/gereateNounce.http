@@ -1,0 +1,18 @@
+POST /Order/GenerateNonce HTTP/1.1
+Host: online.agah.com
+Connection: keep-alive
+Content-Length: 0
+Accept: application/json, text/plain, */*
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36
+X-Requested-With: XMLHttpRequest
+Origin: https://online.agah.com
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: https://online.agah.com/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: fa-IR,fa;q=0.9,en-US;q=0.8,en;q=0.7
+Cookie: _ga=GA1.2.57717926.1593920652; ASP.NET_SessionId=1pdawjx51vjcfqmjp3adnykn; cookiesession1=6CE5E6A1AOB4WVDYLYHFHQWOA4UK7C55; cookiesession4=V7S1JHQMMxeZ5OMTyFOsxurrRMEQGjBrk+EomLz+71NpBajFjiqHNX3+uzOOJ+1fJTGcTiiAZ1r4JXhpmUDke8c134iFYr+bMudB6qoOi5S7RlT90gbCzMV4LkbQyKFjDZoIK48BPPxzDjtgH72c27ClbG8jc+YBFzeOhYKMOHoWtmgIPHwLdg0dXTojuuBsk6W4lu51ZyI=; _gid=GA1.2.75898483.1613107631; .ASAONLINE=DD6F7BE19351CC3B37358EDAECB2E2F9C8824A7F2C855AD04051BF20FAEE02EB7C6C218B799E05E07A52B504AE5F83DBBF0D3C41E664FFF5C61868C33E0DF9D6ED2CECC54B6218F9712EAF61372FBEF0B9DD29A6A7858C9DFB28FB2B65D7838EBCDE2B5A; Username_COOKIE=DPPv7JwcxNeMvM+qflAqvcF8AG4kdUmgMV4K9G/Bfa9SBem4Rp6J82P3e5xTYr6sytzYEstlVELtb9EQQC/jSvIHBf1k2oORgfsd3Dmr/G4LngDCFj/5Ez+l6HuUmvNsmvwo/zUFjphzgvDoae++o+iMLeV2G3mFaKQpXahAa2vIVJif623IzwuLRo05xxNnu7un0o+RACVxpEQbbKpxvgizv5xCrsIv51GuizPP9g8eZ87y/apgcSsvFByYZowKA+kYIldeexuarcDH2Q3MIdZ8fiHvahcGVjf93Za1r4E103dTMa50He6FK5aKOUL369FZw2O2npsuKHeE37e64w==
+
+# response
+# "yQinHGBD7uzykz0,1613195870.50749,B8WVoNpXwjFVxHyJangNdn4Id/Xi+c8UNryoj8qeAXc="
