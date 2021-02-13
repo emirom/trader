@@ -1,5 +1,6 @@
 // import { LocalStorage } from "node-localstorage";
 import got from "got/dist/source";
+import { getDate } from "../utils/marketTime";
 import { mergeObjects } from "../utils/mergeObjects";
 
 export const getSymbolsLastDay = async () => {
@@ -16,11 +17,13 @@ export const getSymbolsLastDay = async () => {
 };
 
 const parseSymbolData = (symbols_raw) => {
-  const symbol_data = symbols_raw.split(";");
+  const date = getDate();
 
+  const symbol_data = symbols_raw.split(";");
   const symbols = symbol_data.map((row) => {
     const columns = row.split(",");
     return {
+      date,
       inscode: columns[0],
       iid: columns[1],
       l18: columns[2],

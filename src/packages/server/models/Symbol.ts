@@ -4,7 +4,7 @@ const SymbolSchema = new Schema(
   // today symbol
   {
     inscode: { type: String, unique: true, required: true },
-
+    date: Date,
     iid: String, // code
     l18: String, // نماد symbol
     l30: String, // نام name
@@ -64,6 +64,11 @@ const SymbolSchema = new Schema(
     avg6_QTotTran5J: Number,
   }
 );
+
+/**
+ * help page:
+ * @link https://cdn.tsetmc.com/Site.aspx?ParTree=151713
+ */
 export interface ISymbol
   extends CalculatedSymbolProps,
     FetchedSymbolProps,
@@ -77,36 +82,37 @@ export interface ISymbol
 export default model<ISymbol>("Symbol", SymbolSchema);
 
 export interface FetchedSymbolProps {
+  date: Date;
   inscode: string;
-  iid: string;
-  l18: string;
-  l30: string;
-  heven: number;
-  pf: number;
-  pc: number;
-  pl: number;
-  tno: number;
-  tvol: number;
-  tval: number;
-  pmin: number;
-  pmax: number;
-  py: number;
+  iid: string; // code
+  l18: string; // نماد symbol
+  l30: string; // نام name
+  heven: number; // ?
+  pf: number; //اولین قیمت price first
+  pc: number; //قیمت پایانی price closing
+  pl: number; //آخرین قیمت price last
+  tno: number; //تعداد معاملات trade number
+  tvol: number; //حجم معاملات trade volume
+  tval: number; //ارزش معاملات trade value
+  pmin: number; //کمترین قیمت price min
+  pmax: number; // بیشترین قیمت price max
+  py: number; //قیمت دیروز price yesterday
   eps: number;
-  bvol: number;
-  visitcount: number;
-  flow: number;
-  cs: number;
-  tmax: number;
-  tmin: number;
-  z: number;
-  yval: number;
+  bvol: number; //حجم مبنا base volume
+  visitcount: number; // c2
+  flow: number; // table_id
+  cs: number; // گروه صنعت company sort
+  tmax: number; //آستانه مجاز بالا threshold max
+  tmin: number; //آستانه مجاز پایین threshold min
+  z: number; // تعداد سهام
+  yval: number; // ارزش دیروز ؟
 }
 export interface CalculatedSymbolProps {
-  pcc: number;
-  pcp: number;
-  plc: number;
-  plp: number;
-  pe: number;
+  pcc: number; // تغییر قیمت پایانی price closing change
+  pcp: number; // درصد تغییر قیمت پایانی price change percent
+  plc: number; // تغییر آخرین قیمت price last change
+  plp: number; //درصد تغییر آخرین قیمت  price last percent
+  pe: number; // انتظارات سرمایه گذاران از بازدهی آینده p/e ,
 
   is5: number; // میانگین حجم معاملات در 3 ماه گذشته
   is6: number; // میانگین حجم معاملات در 12 ماه گذشته
