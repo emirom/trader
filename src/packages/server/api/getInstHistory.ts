@@ -1,5 +1,5 @@
 import got from "got/dist/source";
-import { DayHistory, IDay } from "../models/DayHistory";
+import { DayHistory, RangeHistory } from "../models/DayHistory";
 import { newAliveAgent } from "../utils/got";
 
 type GetDailyHistory = (inscode: string) => Promise<DayHistory>;
@@ -14,18 +14,17 @@ export const getDailyHistory: GetDailyHistory = async (inscode) => {
 
     return {
       inscode,
-      daily: [...result],
-      ih: [],
+      ih: [...result],
     };
   } catch (err) {
     throw new Error(err);
   }
 };
 
-const extract: (raw: string) => IDay[] = (raw) => {
+const extract: (raw: string) => RangeHistory[] = (raw) => {
   const rows = raw.split(";");
   rows.pop(); // remove last undefined
-  return rows.map((row) => checkColumns(row) as IDay);
+  return rows.map((row) => checkColumns(row) as RangeHistory);
 };
 
 export const checkColumns = (row) => {
@@ -40,13 +39,13 @@ export const checkColumns = (row) => {
   return {
     tarikh,
     date: `${year}-${month}-${day}`,
-    tno: +count,
-    tvol: +volume,
-    tval: +value,
-    pf: +open,
-    pmax: +high,
-    pmin: +low,
-    pc: +close,
-    pl: +final,
+    ZTotTran: +count, // tno : تعداد معاملات
+    QTotTran5J: +volume, // tvol : حجم معاملات
+    QTotCap: +value, // tval : ارزش معاملات
+    PriceFirst: +open, // pf : اولین قیمت
+    PriceMax: +high, // pmax : بیشترین قیمت
+    PriceMin: +low, // pmin : کمترین قیمت
+    PClosing: +close, // pc : قیمت پایانی
+    PDrCotVal: +final, // pl : آخرین معامله
   };
 };

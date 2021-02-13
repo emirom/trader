@@ -5,57 +5,54 @@ const dailyHistorySchema = new Schema({
 
   ih: [
     {
-      QTotTran5J: Number, // در روز قبل n حجم معاملات
-      PClosing: Number, // : در روز قبل n قیمت پایانی در
-      PriceYesterday: Number, //در روز قبل n قیمت پایانی در
-      PriceMin: Number, // در روز قبل n  کمترین قیمت
-      PriceMax: Number, // در روز قبل n  بیشترین قیمت
-      gain: Number, // TODO: find and calc
-      loss: Number, // TODO: find and calc
-    },
-  ],
-  daily: [
-    {
       tarikh: String,
       date: String,
-      tno: Number,
-      tvol: Number,
-      tval: Number,
-      pf: Number,
-      pmax: Number,
-      pmin: Number,
-      pc: Number,
-      pl: Number,
+      ZTotTran: Number, // tno : تعداد معاملات
+      QTotTran5J: Number, // tvol : حجم معاملات
+      QTotCap: Number, // tval : ارزش معاملات
+      PriceFirst: Number, // pf : اولین قیمت
+      PriceMax: Number, // pmax : بیشترین قیمت
+      PriceMin: Number, // pmin : کمترین قیمت
+      PClosing: Number, // pc : قیمت پایانی
+      PDrCotVal: Number, // pl : آخرین معامله
+
+      PriceYesterday: Number, // py : قیمت روز قبل
+
+      gain: Number, // TODO: find and calc
+      loss: Number, // TODO: find and calc
     },
   ],
 });
 export default model<IHistory>("DailyHistory", dailyHistorySchema);
 
-export interface IDay {
+/**
+ * RangeHistory naming is based on tsetmc naming :
+ * @link http://www.tsetmc.com/Site.aspx?ParTree=151715&LnkIdn=3197
+ */
+export interface RangeHistory {
+  // روز قبل n اطلاعات
   tarikh: string;
   date: string;
-  tno: number;
-  tvol: number;
-  tval: number;
-  pf: number;
-  pmax: number;
-  pmin: number;
-  pc: number;
-  pl: number;
-}
-export interface IHistory extends DayHistory, Document {}
+  ZTotTran: number; // tno : تعداد معاملات
+  QTotTran5J: number; // tvol : حجم معاملات
+  QTotCap: number; // tval : ارزش معاملات
+  PriceFirst: number; // pf : اولین قیمت
+  PriceMax: number; // pmax : بیشترین قیمت
+  PriceMin: number; // pmin : کمترین قیمت
+  PClosing: number; // pc : قیمت پایانی
+  PDrCotVal: number; // pl : آخرین معامله
 
-export interface RangeHistory {
-  QTotTran5J: number; // در روز قبل n حجم معاملات;
-  PClosing: number; // : در روز قبل n قیمت پایانی در
-  PriceYesterday: number; //در روز قبل n قیمت پایانی در
-  PriceMin: number; // در روز قبل n  کمترین قیمت
-  PriceMax: number; // در روز قبل n  بیشترین قیمت
+  PriceYesterday: number; // py : قیمت روز قبل
+
   gain: number; // TODO: find and calc
   loss: number; // TODO: find and calc
 }
+export interface IHistory extends DayHistory, Document {}
+
+/**
+ *  we need the  DayHistory interface that has no Document props.
+ */
 export interface DayHistory {
   inscode: string;
   ih: RangeHistory[];
-  daily: IDay[];
 }
