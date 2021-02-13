@@ -5,7 +5,8 @@
 
 // Select the database to use.
 use('trader');
-
+db.symbols.totalSize()
+db.dailyhistories.totalSize()
 // The drop() command destroys all data from a collection.
 // Make sure you run it against proper database and collection.
 // db.symbols.drop();
