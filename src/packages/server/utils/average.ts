@@ -1,29 +1,17 @@
-import { DayHistory, RangeHistory } from "../models/DayHistory";
+import { RangeHistory } from "../models/DayHistory";
+
+export const getIhValue = (ih: RangeHistory[], count: number, key: string) => {
+  const prev = ih && ih[count] && ih[count][key];
+  return prev ? prev : 0;
+};
 
 export const calcAverage = (ih: RangeHistory[], days: number, key: string) => {
+  const limit = ih?.length > days ? days : ih?.length;
   let sum = 0;
-
-  for (let day = 0; day < days; day++) {
-    const data = ih[day];
-    sum += data ? data[key] : 0;
+  for (let count = 0; count < limit; count++) {
+    sum += getIhValue(ih, count, key);
   }
 
   return sum / days;
 };
 // ih.reduce((sum, currentIh) => sum + currentIh.QTotTran5J, 0) / 30;
-
-export const averageLast = function (
-  history: DayHistory,
-  days: number,
-  dataKey: string
-) {
-  const daily = history.daily;
-  let sum = 0;
-
-  for (let counter = 0; counter <= days; counter++) {
-    const day = daily && daily[daily.length - counter - 1];
-    sum += day ? day[dataKey] : 0;
-  }
-
-  return sum / (days === 0 ? 1 : days);
-};
