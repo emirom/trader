@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import {
   getClientTypesToday,
-  IClientType,
+  IClientTypeVolCnt,
 } from "../../api/getClientTypesToday";
 
 export const getAllClientTypes = async (_req: Request, res: Response) => {
   try {
-    const result: IClientType[] = await getClientTypesToday();
+    const result: IClientTypeVolCnt[] = await getClientTypesToday();
     console.log(result);
 
     res.status(200).send(result);

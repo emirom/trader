@@ -1,4 +1,7 @@
-import { getClientTypesToday, IClientType } from "../api/getClientTypesToday";
+import {
+  getClientTypesToday,
+  IClientTypeVolCnt,
+} from "../api/getClientTypesToday";
 import Symbol, { ISymbol } from "../models/Symbol";
 /**
  * filter carrier functions are in sync and async form,
@@ -8,14 +11,14 @@ import Symbol, { ISymbol } from "../models/Symbol";
 // ====== async : the symbolFilter argument is a async function
 type AsyncFilter = (
   symbol: ISymbol,
-  clientType?: IClientType
+  clientType?: IClientTypeVolCnt
 ) => Promise<boolean>;
 type AsyncBaseFilter = (symbolFilter: AsyncFilter) => Promise<ISymbol[]>;
 
 export const asyncBaseFilter: AsyncBaseFilter = async (symbolFilter) => {
   try {
     const symbols: ISymbol[] = await Symbol.find({});
-    const clientTypes: IClientType[] = await getClientTypesToday();
+    const clientTypes: IClientTypeVolCnt[] = await getClientTypesToday();
     return await Promise.all(
       symbols.filter(
         async (symbol) =>
@@ -29,13 +32,13 @@ export const asyncBaseFilter: AsyncBaseFilter = async (symbolFilter) => {
 
 // ====== sync : the symbolFilter argument is a sync function
 
-type Filter = (symbol: ISymbol, clientType: IClientType) => boolean;
+type Filter = (symbol: ISymbol, clientType: IClientTypeVolCnt) => boolean;
 type BaseFilter = (symbolFilter: Filter) => Promise<ISymbol[]>;
 
 export const baseFilter: BaseFilter = async (symbolFilter) => {
   try {
     const symbols: ISymbol[] = await Symbol.find({});
-    const clientTypes: IClientType[] = await getClientTypesToday();
+    const clientTypes: IClientTypeVolCnt[] = await getClientTypesToday();
 
     return symbols.filter((symbol) =>
       symbolFilter(

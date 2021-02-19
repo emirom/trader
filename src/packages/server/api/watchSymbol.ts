@@ -1,6 +1,7 @@
-import got from "got/dist/source";
+import got, { Response } from "got/dist/source";
 import { newAliveAgent } from "../utils/got";
 import { mergeObjects } from "../utils/mergeObjects";
+import { IClientTypeVolCnt } from "./getClientTypesToday";
 
 export const watchSymbol = async (id: number) => {
   const url = `http://www.tsetmc.com/tsev2/data/instinfodata.aspx?i=${id}&c=27`;
@@ -22,12 +23,17 @@ export const watchSymbol = async (id: number) => {
   };
 };
 
-export const watchClientType = async (id: number) => {
-  const url = `http://www.tsetmc.com/tsev2/data/instinfodata.aspx?i=${id}&c=27`;
-  const response = await got.get(url, newAliveAgent());
-  const raw = response.body;
-  const parts = raw.split(";");
-  return extractClientType(parts[4]);
+type WatchClientType = (string) => Promise<IClientTypeVolCnt>;
+
+export const watchClientType: WatchClientType = async (inscode: string) => {
+  const url = `http://www.tsetmc.com/tsev2/data/instinfodata.aspx?i=${inscode}&c=27`;
+  const response: Response<string> = await got.get(url, newAliveAgent());
+  const raw: string = response.body;
+  const parts: string[] = raw.split(";");
+  return {
+    inscode,
+    ...extractClientType(parts[4]),
+  };
 };
 
 const extractLimits = (rawLimits) => {

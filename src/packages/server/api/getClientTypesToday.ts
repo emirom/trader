@@ -1,7 +1,9 @@
 import got from "got/dist/source";
 const CLIENT_TYPE_URL = "http://www.tsetmc.com/tsev2/data/ClientTypeAll.aspx";
 
-export const getClientTypesToday: () => Promise<IClientType[]> = async () => {
+export const getClientTypesToday: () => Promise<
+  IClientTypeVolCnt[]
+> = async () => {
   try {
     console.log("\nstarted getting today client types... ");
     const raw = (await got.get(CLIENT_TYPE_URL)).body;
@@ -18,7 +20,7 @@ export const getClientTypesToday: () => Promise<IClientType[]> = async () => {
   }
 };
 
-const extract: (row: string) => IClientType = (row) => {
+const extract: (row: string) => IClientTypeVolCnt = (row) => {
   const columns = row.split(",");
   const ct = {
     inscode: columns[0],
@@ -30,13 +32,13 @@ const extract: (row: string) => IClientType = (row) => {
     Sell_CountN: +columns[6],
     Sell_I_Volume: +columns[7],
     Sell_N_Volume: +columns[8],
-  } as IClientType;
+  } as IClientTypeVolCnt;
   // console.log(ct);
 
   return ct;
 };
 
-export interface IClientType {
+export interface IClientTypeVolCnt {
   inscode: string;
   Buy_CountI: number;
   Buy_CountN: number;

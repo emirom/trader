@@ -1,6 +1,6 @@
 import {
   getClientTypesToday,
-  IClientType,
+  IClientTypeVolCnt,
 } from "../../api/getClientTypesToday";
 import Symbol, { ISymbol } from "../../models/Symbol";
 
@@ -24,7 +24,7 @@ export type WeightFunction = (value: number) => number;
  */
 export type BaseMapForList = (
   symbolsData: ISymbol[],
-  clientTypes: IClientType[],
+  clientTypes: IClientTypeVolCnt[],
   indicator: Indicator,
   getBuyWeight: WeightFunction,
   getSellWeight: WeightFunction,
@@ -72,7 +72,7 @@ export type BaseMap = (
 
 export type Indicator = (
   symbol: ISymbol,
-  ct: IClientType /** difference with async */,
+  ct: IClientTypeVolCnt /** difference with async */,
   weightFunction: WeightFunction
 ) => MappedSymbol | any;
 
@@ -85,7 +85,7 @@ export const baseMap: BaseMap = async (
 ) => {
   try {
     const symbols = symbolsData || (await Symbol.find({}).lean());
-    const clientTypes: IClientType[] = await getClientTypesToday();
+    const clientTypes: IClientTypeVolCnt[] = await getClientTypesToday();
     const weightFunction = isBuying ? getBuyWeight : getSellWeight;
     return symbols.map((symbol) =>
       indicator(
