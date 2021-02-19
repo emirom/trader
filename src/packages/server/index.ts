@@ -1,3 +1,4 @@
+import { brokerRoutes } from "./controllers/broker";
 import { clientTypeRoutes } from "./controllers/clientType";
 import { dayHistoryRoutes } from "./controllers/dayHistory";
 import { indicatorRoutes } from "./controllers/indicator";
@@ -15,6 +16,9 @@ import { startServer } from "./server";
     symbolRoutes(app);
     dayHistoryRoutes(app);
     clientTypeRoutes(app);
+    brokerRoutes(app);
+
+    // loginPuppeteer();
   } catch (error) {
     console.log("______index_error______", error);
   }

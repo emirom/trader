@@ -1,0 +1,3 @@
+GET  http://localhost:3030/broker/login
+GET  http://localhost:3030/broker/buy/list?isBuying=true
+
