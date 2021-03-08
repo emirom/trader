@@ -1,0 +1,7 @@
+GET  http://localhost:3030/indicator/buy/list?isBuying=true
+
+GET  http://localhost:3030/indicator/cci/onAll
+
+GET  http://localhost:3030/indicator/stoc/onAll
+
+GET  http://localhost:3030/indicator/macd/onAll

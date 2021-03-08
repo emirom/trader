@@ -1,0 +1,10 @@
+GET /Loader.aspx?ParTree=15 HTTP/1.1
+Host: 91.99.96.232
+Connection: keep-alive
+Accept: text/plain, */*; q=0.01
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36
+X-Requested-With: XMLHttpRequest
+Referer: http://91.99.96.232/Loader.aspx?ParTree=15
+Accept-Encoding: gzip, deflate
+Accept-Language: fa-IR,fa;q=0.9,en-US;q=0.8,en;q=0.7
+Cookie: _ga=GA1.1.249859570.1601991472; _gid=GA1.1.1366018250.1613824321; ASP.NET_SessionId=kiqbwinexhzogokancbixxhd

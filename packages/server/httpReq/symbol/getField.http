@@ -1,0 +1,1 @@
+GET http://localhost:3030/symbol/get?fieldName=avg30_QTotTran5J&value={ $gte: 1} 
