@@ -1,5 +1,3 @@
-GET http://localhost:3030/symbol/initialize
-Content-Length: 477
 
 GET http://localhost:3030/symbol/get?fieldName=l18&value=شاخص کل
 

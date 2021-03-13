@@ -6,12 +6,9 @@ import ISymbol, {
 } from "../../models/Symbol";
 import { roundTo2 } from "../../utils/roundTo";
 
-export const initializeSymbols = async (_req: Request, res: Response) => {
+export const initializeSymbolsApi = async (_req: Request, res: Response) => {
   try {
-    const data = await getSymbolsLastDay();
-    const symbols: SymbolWithCalculatedProps[] = calcProperties(data);
-    await ISymbol.deleteMany();
-    const result = await ISymbol.insertMany(symbols);
+    const result = await initializeSymbols();
     res
       .status(200)
       .send(result.length + " symbols were created sucessfully ...");
@@ -20,6 +17,12 @@ export const initializeSymbols = async (_req: Request, res: Response) => {
   }
 };
 
+export const initializeSymbols = async () => {
+  const data = await getSymbolsLastDay();
+  const symbols: SymbolWithCalculatedProps[] = calcProperties(data);
+  await ISymbol.deleteMany();
+  return await ISymbol.insertMany(symbols);
+};
 interface SymbolWithCalculatedProps
   extends CalculatedSymbolProps,
     FetchedSymbolProps {}

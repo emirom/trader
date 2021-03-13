@@ -3,10 +3,10 @@ import { deleteSymbols } from "./deleteSymbols";
 import { getSymbol } from "./getSymbol";
 import { getSymbols } from "./getSymbols";
 // import { watchCustomerType, watchSymbol } from "../api/watchSymbol";
-import { initializeSymbols } from "./initializeSymbols";
+import { initializeSymbolsApi } from "./initializeSymbols";
 
 export const symbolRoutes = (app: Express) => {
-  app.get("/symbol/initialize", initializeSymbols);
+  app.get("/symbol/initialize", initializeSymbolsApi);
   app.get("/symbol/get", getSymbol);
   app.get("/symbol/getAll", getSymbols);
   app.delete("/symbol/deleteAll", deleteSymbols);
